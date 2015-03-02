@@ -32,5 +32,5 @@ $search_id .= idate("U");
 searchNinsert($query1, $search_id);
 //Run the second search query through the API
 searchNinsert($query2, $search_id);
-
+displayMatching();
 

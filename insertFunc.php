@@ -34,7 +34,7 @@ $getfield = '?q='.urlencode($query);
 
 $requestMethod = 'GET';
 $twitter = new TwitterAPIExchange($settings);
-echo $twitter->setGetfield($getfield)
+$twitter->setGetfield($getfield)
              ->buildOauth($url, $requestMethod)
              ->performRequest();
 $response = $twitter->setGetfield($getfield)
@@ -85,10 +85,30 @@ $response = $twitter->setGetfield($getfield)
             echo "Error: " . $insert2 . "<br>" . mysqli_error($connect);
         }
         
-        
+
 //close database connection
    mysqli_close($connect);
 
     
     
+}
+
+function displayMatching(){
+    $db = new mysqli('localhost', 'root', 'root','twitter');
+
+    $dupTweets = "select a.id_str,a.created_at, a.textf,a.user_id, a.search_id
+                    from twitter.results a
+                    join twitter.results b
+                    on a.id_str = b.id_str
+                    and a.search_id = b.search_id
+                    where a.search <> b.search;";
+        if(!$result = $db->query($dupTweets)){
+            die('There was an error running the query [' . $db->error . ']');
+        } else {
+            while($row = $result->fetch_assoc()){
+                echo $row['id_str'] . '<br />' . $row['created_at'] . '<br />' . $row['user_id'] . '<br />' . $row['textf'];
+            }
+            $result->free();
+        }
+    $db->close();
 }
