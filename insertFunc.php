@@ -82,7 +82,8 @@ $response = $twitter->setGetfield($getfield)
         if (mysqli_query($connect, $insert2)) {
             //echo "New record created successfully";
         } else {
-            echo "Error: " . $insert2 . "<br>" . mysqli_error($connect);
+            //echo "Error: " . $insert2 . "<br>" . mysqli_error($connect);
+            echo "Error Loading new data! <br />";
         }
         
         
@@ -100,7 +101,7 @@ function displayMatching($search1,$search2){
                     on a.id_str = b.id_str
                     and a.search_id = b.search_id
                     where a.search <> b.search
-                    and a.search in ('".$search1."','".$search2."');";
+                    and a.search = '".$search1."' and b.search = '".$search2."';";
         if(!$result = $db->query($dupTweets)){
             die('There was an error running the query [' . $db->error . ']');
         } else {
